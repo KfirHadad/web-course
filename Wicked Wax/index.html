@@ -4,69 +4,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wciked Wax</title>
+    <meta name="description" content="Wicked Wax – your go-to DIY candle shop. Build your perfect candle or shop our bestsellers.">
+    <title>Wicked Wax</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body style="background-color: #EFF0EA;">
+<body>
 
+    <!-- ===== HEADER / NAV ===== -->
     <header>
         <h1>Wicked Wax</h1>
-        <div class="left-header">
 
-            <button>
-                <img src="/Assets/logo.jpeg" alt="Logo Image" width="80px">
+        <div class="left-header">
+            <button aria-label="Home">
+                <img src="/Wicked Wax/Assets/logo.jpeg" alt="Logo Image">
             </button>
-            <button>Shop</button>
-            <button>Build a Candle</button>
-            <button>
-                <img src="/Assets/cart.svg" alt="Cart Icon">
+            <button id="nav-shop-btn">Shop</button>
+            <button id="nav-build-btn">Build a Candle</button>
+            <button aria-label="Cart">
+                <img src="/Wicked Wax/Assets/cart.svg" alt="Cart Icon">
             </button>
         </div>
 
         <div class="right-header">
-            <button>About</button>
-            <button>Contact</button>
+            <button id="nav-about-btn">About</button>
+            <button id="nav-contact-btn">Contact</button>
         </div>
     </header>
 
-    <div class="main">
-        <div id="main-bs">
-            <h2>Best seller Items</h2>
-            <div id="main-imgs">
-                <h3>----Insert Images Here----</h3>
-            </div>
-        </div>
-        <div id="main-cta">
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+
+        <!-- Hero / CTA -->
+        <section id="main-cta">
             <h2>Create Your Perfect Candle</h2>
+            <p class="hero-sub">Choose your scent, color &amp; container — and we'll handle the rest.</p>
             <div class="cta">
                 <button id="start-building-btn">Start Building</button>
                 <button id="shop-material-btn">Shop Materials</button>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div class="about">
-        <p> This website is about Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo facere possimus magnam
-            libero eaque suscipit? Illum necessitatibus repellendus, quis nobis numquam beatae ratione culpa odit,
-            tenetur dicta consequuntur, ullam ex?</p>
-        <br><br>
-        <p>DIY - Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat repudiandae laborum ab facilis,
-            perferendis vel blanditiis suscipit perspiciatis adipisci libero facere deleniti fugit nobis corrupti
-            asperiores vero, exercitationem natus ipsam.</p>
-        <br><br>
-        <h5>3 Benefits:</h5>
+        <!-- Best Sellers -->
+        <section id="main-bs">
+            <h2>Best Seller Items</h2>
+            <div id="main-imgs">
+                <h3>——  Products Coming Soon  ——</h3>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="about">
+        <p>Welcome to <strong>Wicked Wax</strong> — your one‑stop destination for handcrafted, customisable candles.
+            Whether you're a first‑time maker or a seasoned crafter, we provide everything you need to create
+            candles that smell amazing and look even better.</p>
+
+        <p>DIY candle‑making is all about expressing yourself. Pick your favourite scents, experiment with
+            colours, and pour a little personality into every jar. It's a craft that's as relaxing as the
+            candles themselves.</p>
+
+        <h5>3 Reasons to Love It:</h5>
         <ul>
             <li>Easy to Start</li>
             <li>Affordable</li>
-            <li>Personalized</li>
+            <li>Personalised</li>
         </ul>
-    </div>
+    </section>
 
+    <!-- ===== FOOTER ===== -->
     <footer>
-        <div id="soc-med"><a href="http://">Instagram</a> <a href="tel:+9725230555501">What'sApp</a></div>
-        <a href="">Terms & Privacy</a>
-        <h5>&copy All Rights Reserved</h5>
-    </footer>
+        <div id="soc-med">
+            <a href="http://instagram.com" target="_blank" rel="noopener">Instagram</a>
+            <a href="tel:+9725230555501">WhatsApp</a>
+        </div>
+        <a href="#" id="terms-link">Terms &amp; Privacy</a>
+        <h5>&copy; 2026 Wicked Wax. All Rights Reserved.</h5>
+        </footer>
 
 </body>
 
