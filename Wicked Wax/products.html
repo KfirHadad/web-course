@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Wicked Wax Shop – browse wax, wicks, scented oils and accessories for DIY candle making.">
+    <title>Shop – Wicked Wax</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="products.css">
+</head>
+
+<body>
+
+    <!-- ===== HEADER / NAV ===== -->
+    <header>
+        <h1>Wicked Wax</h1>
+
+        <div class="left-header">
+            <button aria-label="Home">
+                <img src="/Wicked Wax/Assets/logo.jpeg" alt="Logo Image">
+            </button>
+            <button id="nav-home-btn">Home</button>
+            <button id="nav-shop-btn" class="nav-active">Shop</button>
+            <button id="nav-build-btn">Build a Candle</button>
+            <button aria-label="Cart">
+                <img src="/Wicked Wax/Assets/cart.svg" alt="Cart Icon">
+            </button>
+        </div>
+
+        <div class="right-header">
+            <button id="nav-about-btn">About</button>
+            <button id="nav-contact-btn">Contact</button>
+        </div>
+    </header>
+
+    <!-- ===== PAGE HERO ===== -->
+    <section id="shop-hero">
+        <h2>Our Products</h2>
+        <p>Everything you need to craft the perfect handmade candle — from wax to wicks to finishing touches.</p>
+    </section>
+
+    <!-- ===== SHOP LAYOUT ===== -->
+    <div id="shop-layout">
+
+        <!-- ===== SIDEBAR FILTERS ===== -->
+        <aside id="filter-sidebar">
+            <h3>Filters</h3>
+
+            <!-- Price Range -->
+            <div class="filter-group">
+                <h4>Price Range</h4>
+                <div class="price-range-wrapper">
+                    <input type="range" id="price-slider" min="0" max="200" value="200" step="5">
+                    <div class="price-labels">
+                        <span>₪0</span>
+                        <span id="price-display">₪200</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Type -->
+            <div class="filter-group">
+                <h4>Product Type</h4>
+                <label class="filter-check"><input type="checkbox" value="natural" checked> Natural</label>
+                <label class="filter-check"><input type="checkbox" value="synthetic" checked> Synthetic</label>
+                <label class="filter-check"><input type="checkbox" value="blend" checked> Blend</label>
+            </div>
+
+            <!-- Sort By -->
+            <div class="filter-group">
+                <h4>Sort By</h4>
+                <select id="sort-select">
+                    <option value="default">Default</option>
+                    <option value="price-asc">Price: Low → High</option>
+                    <option value="price-desc">Price: High → Low</option>
+                    <option value="name-asc">Name: A → Z</option>
+                </select>
+            </div>
+
+            <button id="clear-filters-btn">Clear Filters</button>
+        </aside>
+
+        <!-- ===== MAIN SHOP CONTENT ===== -->
+        <section id="shop-main">
+
+            <!-- Search + Category bar -->
+            <div id="shop-controls">
+                <div id="search-wrapper">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input type="text" id="search-input" placeholder="Search products…" aria-label="Search products">
+                </div>
+
+                <div id="category-filters">
+                    <button class="cat-btn active" data-category="all">All</button>
+                    <button class="cat-btn" data-category="wax">🕯️ Wax</button>
+                    <button class="cat-btn" data-category="wicks">🧵 Wicks</button>
+                    <button class="cat-btn" data-category="oils">🌿 Scented Oils</button>
+                    <button class="cat-btn" data-category="accessories">🧰 Accessories</button>
+                </div>
+            </div>
+
+            <!-- Results count -->
+            <p id="results-count">Showing <span id="count-num">16</span> products</p>
+
+            <!-- Product Grid -->
+            <div id="products-grid">
+
+                <!-- WAX -->
+                <article class="product-card" data-category="wax" data-price="45" data-type="natural" data-name="Soy Wax Flakes">
+                    <div class="card-img wax-img">🕯️</div>
+                    <span class="product-badge natural-badge">Natural</span>
+                    <div class="card-body">
+                        <span class="product-category">Wax</span>
+                        <h3>Soy Wax Flakes</h3>
+                        <p class="product-desc">Premium 100% natural soy wax, 1 kg bag. Clean burn, ideal for beginners.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪45</span>
+                            <button class="add-to-cart-btn" aria-label="Add Soy Wax Flakes to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="wax" data-price="62" data-type="natural" data-name="Beeswax Pellets">
+                    <div class="card-img wax-img">🍯</div>
+                    <span class="product-badge natural-badge">Natural</span>
+                    <div class="card-body">
+                        <span class="product-category">Wax</span>
+                        <h3>Beeswax Pellets</h3>
+                        <p class="product-desc">Pure filtered beeswax pellets, 500 g. Naturally sweet scent and long burn time.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪62</span>
+                            <button class="add-to-cart-btn" aria-label="Add Beeswax Pellets to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="wax" data-price="38" data-type="synthetic" data-name="Paraffin Wax">
+                    <div class="card-img wax-img">⬜</div>
+                    <span class="product-badge synthetic-badge">Synthetic</span>
+                    <div class="card-body">
+                        <span class="product-category">Wax</span>
+                        <h3>Paraffin Wax</h3>
+                        <p class="product-desc">Classic paraffin wax, 1 kg block. Great scent throw, beginner-friendly.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪38</span>
+                            <button class="add-to-cart-btn" aria-label="Add Paraffin Wax to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="wax" data-price="55" data-type="blend" data-name="Coconut Wax Blend">
+                    <div class="card-img wax-img">🥥</div>
+                    <span class="product-badge blend-badge">Blend</span>
+                    <div class="card-body">
+                        <span class="product-category">Wax</span>
+                        <h3>Coconut Wax Blend</h3>
+                        <p class="product-desc">Luxurious coconut & soy blend, 500 g. Silky finish with strong scent retention.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪55</span>
+                            <button class="add-to-cart-btn" aria-label="Add Coconut Wax Blend to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- WICKS -->
+                <article class="product-card" data-category="wicks" data-price="28" data-type="natural" data-name="Cotton Core Wicks">
+                    <div class="card-img wick-img">🧵</div>
+                    <span class="product-badge natural-badge">Natural</span>
+                    <div class="card-body">
+                        <span class="product-category">Wicks</span>
+                        <h3>Cotton Core Wicks</h3>
+                        <p class="product-desc">Pack of 50 pre-tabbed cotton wicks. Sizes 3"–6", minimal mushrooming.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪28</span>
+                            <button class="add-to-cart-btn" aria-label="Add Cotton Core Wicks to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="wicks" data-price="35" data-type="natural" data-name="Wooden Wicks">
+                    <div class="card-img wick-img">🪵</div>
+                    <span class="product-badge natural-badge">Natural</span>
+                    <div class="card-body">
+                        <span class="product-category">Wicks</span>
+                        <h3>Wooden Wicks</h3>
+                        <p class="product-desc">Pack of 20 crackling wood wicks. Creates a cozy fireplace ambiance.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪35</span>
+                            <button class="add-to-cart-btn" aria-label="Add Wooden Wicks to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="wicks" data-price="22" data-type="natural" data-name="Braided Wicks Roll">
+                    <div class="card-img wick-img">🧶</div>
+                    <span class="product-badge natural-badge">Natural</span>
+                    <div class="card-body">
+                        <span class="product-category">Wicks</span>
+                        <h3>Braided Wicks Roll</h3>
+                        <p class="product-desc">10 m roll of unbleached braided cotton wick. Cut to any length you need.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪22</span>
+                            <button class="add-to-cart-btn" aria-label="Add Braided Wicks Roll to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="wicks" data-price="30" data-type="synthetic" data-name="Pre-tabbed Wicks">
+                    <div class="card-img wick-img">📌</div>
+                    <span class="product-badge synthetic-badge">Synthetic</span>
+                    <div class="card-body">
+                        <span class="product-category">Wicks</span>
+                        <h3>Pre-tabbed Wicks</h3>
+                        <p class="product-desc">Pack of 30 self-adhesive tabbed wicks. Ready to drop into any container.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪30</span>
+                            <button class="add-to-cart-btn" aria-label="Add Pre-tabbed Wicks to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- SCENTED OILS -->
+                <article class="product-card" data-category="oils" data-price="42" data-type="natural" data-name="Lavender Essential Oil">
+                    <div class="card-img oil-img">💜</div>
+                    <span class="product-badge natural-badge">Natural</span>
+                    <div class="card-body">
+                        <span class="product-category">Scented Oils</span>
+                        <h3>Lavender Essential Oil</h3>
+                        <p class="product-desc">Pure steam-distilled lavender, 30 ml. Calming, floral and timeless.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪42</span>
+                            <button class="add-to-cart-btn" aria-label="Add Lavender Essential Oil to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="oils" data-price="38" data-type="synthetic" data-name="Vanilla Fragrance Oil">
+                    <div class="card-img oil-img">🍦</div>
+                    <span class="product-badge synthetic-badge">Synthetic</span>
+                    <div class="card-body">
+                        <span class="product-category">Scented Oils</span>
+                        <h3>Vanilla Fragrance Oil</h3>
+                        <p class="product-desc">Rich warm vanilla, 50 ml. Best-selling scent with strong cold & hot throw.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪38</span>
+                            <button class="add-to-cart-btn" aria-label="Add Vanilla Fragrance Oil to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="oils" data-price="55" data-type="blend" data-name="Rose & Oud Blend">
+                    <div class="card-img oil-img">🌹</div>
+                    <span class="product-badge blend-badge">Blend</span>
+                    <div class="card-body">
+                        <span class="product-category">Scented Oils</span>
+                        <h3>Rose &amp; Oud Blend</h3>
+                        <p class="product-desc">Exotic rose &amp; dark oud blend, 30 ml. Luxurious and long-lasting.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪55</span>
+                            <button class="add-to-cart-btn" aria-label="Add Rose & Oud Blend to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="oils" data-price="40" data-type="natural" data-name="Citrus Burst Oil">
+                    <div class="card-img oil-img">🍋</div>
+                    <span class="product-badge natural-badge">Natural</span>
+                    <div class="card-body">
+                        <span class="product-category">Scented Oils</span>
+                        <h3>Citrus Burst Oil</h3>
+                        <p class="product-desc">Bright lemon, orange &amp; grapefruit blend, 50 ml. Energising and fresh.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪40</span>
+                            <button class="add-to-cart-btn" aria-label="Add Citrus Burst Oil to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ACCESSORIES -->
+                <article class="product-card" data-category="accessories" data-price="65" data-type="synthetic" data-name="Pouring Pitcher">
+                    <div class="card-img acc-img">🫙</div>
+                    <span class="product-badge synthetic-badge">Tool</span>
+                    <div class="card-body">
+                        <span class="product-category">Accessories</span>
+                        <h3>Pouring Pitcher 1 L</h3>
+                        <p class="product-desc">Stainless steel pitcher with pour spout. Heat-resistant handle, 1 L capacity.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪65</span>
+                            <button class="add-to-cart-btn" aria-label="Add Pouring Pitcher to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="accessories" data-price="18" data-type="synthetic" data-name="Wick Centering Tool">
+                    <div class="card-img acc-img">⚙️</div>
+                    <span class="product-badge synthetic-badge">Tool</span>
+                    <div class="card-body">
+                        <span class="product-category">Accessories</span>
+                        <h3>Wick Centering Tool</h3>
+                        <p class="product-desc">Adjustable metal bar to keep wicks perfectly centered while wax sets.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪18</span>
+                            <button class="add-to-cart-btn" aria-label="Add Wick Centering Tool to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="accessories" data-price="25" data-type="synthetic" data-name="Candle Thermometer">
+                    <div class="card-img acc-img">🌡️</div>
+                    <span class="product-badge synthetic-badge">Tool</span>
+                    <div class="card-body">
+                        <span class="product-category">Accessories</span>
+                        <h3>Candle Thermometer</h3>
+                        <p class="product-desc">Clip-on stainless steel thermometer. Range 0–200 °C for precise pouring.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪25</span>
+                            <button class="add-to-cart-btn" aria-label="Add Candle Thermometer to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-category="accessories" data-price="72" data-type="natural" data-name="Glass Jar Set">
+                    <div class="card-img acc-img">🫙</div>
+                    <span class="product-badge natural-badge">Glass</span>
+                    <div class="card-body">
+                        <span class="product-category">Accessories</span>
+                        <h3>Glass Jar Set (6 pcs)</h3>
+                        <p class="product-desc">Set of 6 clear glass jars with lids, 200 ml each. Perfect for soy &amp; coconut wax.</p>
+                        <div class="card-footer">
+                            <span class="product-price">₪72</span>
+                            <button class="add-to-cart-btn" aria-label="Add Glass Jar Set to cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </article>
+
+            </div><!-- /#products-grid -->
+
+            <!-- Empty state -->
+            <div id="no-results" hidden>
+                <span>🕯️</span>
+                <h3>No products found</h3>
+                <p>Try adjusting your search or filters.</p>
+            </div>
+
+        </section><!-- /#shop-main -->
+    </div><!-- /#shop-layout -->
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div id="soc-med">
+            <a href="http://instagram.com" target="_blank" rel="noopener">Instagram</a>
+            <a href="tel:+9725230555501">WhatsApp</a>
+        </div>
+        <a href="#" id="terms-link">Terms &amp; Privacy</a>
+        <h5>&copy; 2026 Wicked Wax. All Rights Reserved.</h5>
+    </footer>
+
+    <script src="products.js"></script>
+
+</body>
+</html>
