@@ -5,16 +5,16 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    /* ---- Navigation buttons ---- */
+    const navShopBtn = document.getElementById('nav-shop-btn');
+    const navBuildBtn = document.getElementById('nav-build-btn');
+    const navAboutBtn = document.getElementById('nav-about-btn');
+    const navContactBtn = document.getElementById('nav-contact-btn');
+    const logoBtn = document.querySelector('header button[aria-label="Home"]');
+    const cartBtn = document.querySelector('header button[aria-label="Cart"]');
+
     /* ---- Cart badge ---- */
     updateCartBadge();
-
-    /* ---- Navigation buttons ---- */
-    const navShopBtn    = document.getElementById('nav-shop-btn');
-    const navBuildBtn   = document.getElementById('nav-build-btn');
-    const navAboutBtn   = document.getElementById('nav-about-btn');
-    const navContactBtn = document.getElementById('nav-contact-btn');
-    const logoBtn       = document.querySelector('header button[aria-label="Home"]');
-    const cartBtn       = document.querySelector('header button[aria-label="Cart"]');
 
     // Shop → products page
     navShopBtn?.addEventListener('click', () => {
@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast('🕯️ Candle builder coming soon!');
     });
 
-    // About → smooth-scroll to about section
+    // About → dedicated about page
     navAboutBtn?.addEventListener('click', () => {
-        document.querySelector('.about')?.scrollIntoView({ behavior: 'smooth' });
+        window.location.href = 'about.html';
     });
 
     // Contact → smooth-scroll to footer
@@ -49,24 +49,100 @@ document.addEventListener('DOMContentLoaded', () => {
             : '🛒 Your cart is empty.');
     });
 
-    /* ---- CTA buttons ---- */
-    const startBuildingBtn  = document.getElementById('start-building-btn');
-    const shopMaterialBtn   = document.getElementById('shop-material-btn');
-
-    startBuildingBtn?.addEventListener('click', () => {
+    /* ---- CTA button ---- */
+    document.getElementById('start-building-btn')?.addEventListener('click', () => {
         showToast('🕯️ Candle builder coming soon!');
     });
 
-    shopMaterialBtn?.addEventListener('click', () => {
-        window.location.href = 'products.html';
-    });
+    /* ---- Best Sellers carousel ---- */
+    const bestSellersData = [
+        { id: 'soy-wax',      name: 'Premium Soy Wax',     price: 40, categoryLabel: 'Wax',           img: 'Assets/wax bags/A_Blanket_of_Snow_bag.png',     hoverImg: 'Assets/wax 2/a_blanket_of_snow.jpg' },
+        { id: 'old-cardigan', name: 'Old Cardigan',         price: 45, categoryLabel: 'Fragrance Oil', img: 'Assets/Scented oils/Old_Cardigan.png',           hoverImg: 'Assets/Scented oils back/old_cardigan_back.png' },
+        { id: 'salt-air',     name: 'Salt Air',             price: 45, categoryLabel: 'Fragrance Oil', img: 'Assets/Scented oils/Salt_Air.png',               hoverImg: 'Assets/Scented oils back/salt_air_back.png' },
+        { id: 'cotton-wick',  name: 'Cotton Wick Kit',      price: 40, categoryLabel: 'Wick',          img: 'Assets/more product/cotton_wick.png',            hoverImg: 'Assets/more product/cotton_wick_burning.png' },
+        { id: 'flowers',      name: 'Lovely Bouquet Decor', price: 25, categoryLabel: 'Candle Decor',  img: 'Assets/candle decor/flowers_packed.png',         hoverImg: 'Assets/candle decor/flowers_in_candle.png' },
+        { id: 'enchanted-jar',name: 'Enchanted Jar',        price: 29, categoryLabel: 'Jar',           img: 'Assets/more product/jars/vintage_jar_small.png', hoverImg: 'Assets/more product/jars/vintage_jar_small_candle.png' },
+        { id: 'wick-trimmer', name: 'Golden Wick Trimmer',  price: 50, categoryLabel: 'Wick Accessory',img: 'Assets/more product/wick_trimmer.png',           hoverImg: 'Assets/more product/wick_trimmer_candle.png' },
+    ];
+
+    function renderBestSellers() {
+        const container = document.getElementById('main-imgs');
+        if (!container) return;
+        container.innerHTML = '';
+        container.className = 'bs-carousel-container';
+
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'bs-arrow bs-prev';
+        prevBtn.setAttribute('aria-label', 'Previous');
+        prevBtn.innerHTML = '&#8249;';
+
+        const track = document.createElement('div');
+        track.className = 'bs-track';
+
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'bs-arrow bs-next';
+        nextBtn.setAttribute('aria-label', 'Next');
+        nextBtn.innerHTML = '&#8250;';
+
+        bestSellersData.forEach(p => {
+            const card = document.createElement('article');
+            card.className = 'product-card bs-card';
+            card.innerHTML = `
+                <div class="best-seller-badge">★ Best Seller</div>
+                <div class="card-img-wrapper" onclick="openQuickView('${p.id}')">
+                    <img src="${p.img}" class="default-img" alt="${p.name}">
+                    <img src="${p.hoverImg}" class="hover-img" alt="${p.name}">
+                    <div class="quick-view-overlay">View Product</div>
+                </div>
+                <div class="card-body">
+                    <span class="product-category">${p.categoryLabel}</span>
+                    <h3>${p.name}</h3>
+                    <div class="card-footer">
+                        <span class="product-price">₪${p.price}</span>
+                        <button class="add-to-cart-btn bs-add-btn">Add to Cart</button>
+                    </div>
+                </div>`;
+            card.querySelector('.bs-add-btn').addEventListener('click', e => {
+                e.stopPropagation();
+                const btn = e.currentTarget;
+                addToCartHome({ name: p.name, price: p.price });
+                btn.textContent = '✓ Added!';
+                btn.classList.add('added');
+                setTimeout(() => { btn.textContent = 'Add to Cart'; btn.classList.remove('added'); }, 1800);
+                showToast(`✅ "${p.name}" added to cart`);
+                updateCartBadge();
+            });
+            track.appendChild(card);
+        });
+
+        container.appendChild(prevBtn);
+        container.appendChild(track);
+        container.appendChild(nextBtn);
+
+        const scrollAmt = 244;
+        prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollAmt, behavior: 'smooth' }));
+        nextBtn.addEventListener('click', () => track.scrollBy({ left:  scrollAmt, behavior: 'smooth' }));
+    }
+
+    renderBestSellers();
+
+    function addToCartHome({ name, price }) {
+        try {
+            const cart = JSON.parse(localStorage.getItem('ww_cart') || '[]');
+            const existing = cart.find(i => i.name === name);
+            if (existing) { existing.qty += 1; } else { cart.push({ name, price, qty: 1 }); }
+            const total = cart.reduce((s, i) => s + i.qty, 0);
+            localStorage.setItem('ww_cart', JSON.stringify(cart));
+            localStorage.setItem('ww_cart_count', String(total));
+        } catch {}
+    }
 
     /* ---- Active nav highlight on scroll ---- */
     const sections = [
-        { el: document.getElementById('main-cta'),   btn: null },
-        { el: document.getElementById('main-bs'),    btn: navShopBtn },
-        { el: document.querySelector('.about'),      btn: navAboutBtn },
-        { el: document.querySelector('footer'),      btn: navContactBtn },
+        { el: document.getElementById('main-cta'), btn: null },
+        { el: document.getElementById('main-bs'), btn: navShopBtn },
+        { el: document.querySelector('.about'), btn: navAboutBtn },
+        { el: document.querySelector('footer'), btn: navContactBtn },
     ];
 
     const observer = new IntersectionObserver((entries) => {

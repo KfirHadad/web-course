@@ -9,7 +9,7 @@
    ============================================ */
 
 /* ---------- Google Fonts Import ---------- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap');
 
 /* ---------- CSS Reset & Base ---------- */
 *,
@@ -34,7 +34,11 @@ body {
 
 /* ---------- Typography ---------- */
 h1,
-h2,
+h2 {
+    font-family: 'Cormorant Garamond', serif;
+    color: #5D3364;
+}
+
 h3,
 h4,
 h5 {
@@ -43,19 +47,25 @@ h5 {
 }
 
 h1 {
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: 1px;
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: 4px;
 }
 
 h2 {
-    font-size: 24px;
+    font-size: 34px;
     font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 h5 {
     font-size: 18px;
     font-weight: 600;
+}
+
+::selection {
+    background: #d4c5e4;
+    color: #5D3364;
 }
 
 p {
@@ -89,10 +99,12 @@ header {
 }
 
 header h1 {
+    font-family: 'Trajan Pro', 'Cinzel', serif;
     color: #EFF0EA;
-    font-size: 26px;
-    letter-spacing: 2px;
+    font-size: 28px;
+    letter-spacing: 5px;
     flex-shrink: 0;
+    font-weight: 600;
 }
 
 .left-header,
@@ -122,23 +134,35 @@ header button:hover {
     color: #fff;
 }
 
-/* Logo button */
-header button:has(img) {
-    padding: 4px;
-    border-radius: 50%;
-    overflow: hidden;
+/* Brand link (logo + title) */
+#brand-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    flex-shrink: 0;
+    border-radius: 10px;
+    padding: 4px 10px 4px 4px;
+    transition: background-color 0.2s ease;
 }
 
-header button img {
+#brand-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: inherit;
+}
+
+#brand-link img {
     display: block;
     width: 48px;
     height: 48px;
     border-radius: 50%;
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 /* Cart icon button */
 header button img[alt="Cart Icon"] {
+    display: block;
     width: 26px;
     height: 26px;
     border-radius: 0;
@@ -148,78 +172,214 @@ header button img[alt="Cart Icon"] {
 /* ---------- Hero / CTA Section ---------- */
 #main-cta {
     text-align: center;
-    padding: 80px 40px 60px;
-    background: linear-gradient(135deg, #EFF0EA 0%, #ddd8eb 100%);
-    border-bottom: 3px solid #B08AC3;
+    padding: 0 0 72px;
+    background: linear-gradient(160deg, #f5f0fa 0%, #ede7f5 45%, #e6f2ec 100%);
+    border-bottom: 1px solid #d4c5e4;
+    position: relative;
 }
 
-#main-cta h2 {
-    font-size: 36px;
-    color: #5D3364;
-    margin-bottom: 12px;
+/* Video */
+#hero-video-wrapper {
+    width: 100%;
+    max-height: 560px;
+    overflow: hidden;
+    line-height: 0;
+}
+
+#hero-video-wrapper video {
+    width: 100%;
+    max-height: 560px;
+    object-fit: cover;
+    display: block;
 }
 
 #main-cta p.hero-sub {
     font-size: 16px;
-    color: #666;
-    margin-bottom: 36px;
-    max-width: 520px;
-    margin-left: auto;
-    margin-right: auto;
+    color: #7a6a86;
+    margin: 32px auto 28px;
+    max-width: 480px;
+    letter-spacing: 0.3px;
+    line-height: 1.7;
 }
 
-.cta {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 28px;
-}
-
-/* CTA Buttons */
+/* Start Building button */
 #start-building-btn {
-    background-color: #1A543E;
-    color: #fff;
+    background: linear-gradient(135deg, #3d1f45, #5D3364, #9b5aaa, #5D3364);
+    background-size: 300% 300%;
+    animation: gradientShift 5s ease infinite;
+    color: #EFF0EA;
     border: none;
     font-family: 'Poppins', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
-    padding: 14px 34px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 18px 56px;
     border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(26, 84, 62, 0.35);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.25s;
+    box-shadow: 0 8px 32px rgba(93, 51, 100, 0.38), 0 0 0 1px rgba(176, 138, 195, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #start-building-btn:hover {
-    background-color: #134030;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(26, 84, 62, 0.4);
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 16px 48px rgba(93, 51, 100, 0.52), 0 0 0 1px rgba(176, 138, 195, 0.45);
 }
 
-#shop-material-btn {
-    background-color: transparent;
-    color: #5D3364;
-    border: 2px solid #5D3364;
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    padding: 14px 34px;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
-}
-
-#shop-material-btn:hover {
-    background-color: #5D3364;
-    color: #fff;
-    transform: translateY(-2px);
+@keyframes gradientShift {
+    0%   { background-position: 0%   50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0%   50%; }
 }
 
 /* ---------- Main Content (.main) ---------- */
 .main {
     display: flex;
     flex-direction: column;
+}
+
+/* ---------- Why Wicked Wax ---------- */
+#why-section {
+    padding: 80px 40px 88px;
+    background: #fff;
+    text-align: center;
+    border-bottom: 1px solid #e8dff2;
+}
+
+.why-ornament {
+    font-size: 11px;
+    color: #B08AC3;
+    letter-spacing: 14px;
+    opacity: 0.65;
+    margin-bottom: 18px;
+}
+
+#why-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-style: italic;
+    color: #5D3364;
+    margin-bottom: 52px;
+    line-height: 1.15;
+}
+
+.why-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.why-card {
+    background: #fff;
+    border: 1px solid rgba(176, 138, 195, 0.2);
+    border-radius: 24px;
+    padding: 44px 36px 40px;
+    box-shadow: 0 4px 28px rgba(176, 138, 195, 0.1);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.why-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(176,138,195,0.06) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.why-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(176, 138, 195, 0.22);
+}
+
+.why-icon-wrap {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin: 0 auto 24px;
+    box-shadow: 0 4px 16px rgba(176, 138, 195, 0.18);
+}
+
+.why-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #5D3364;
+    margin-bottom: 10px;
+    letter-spacing: 0.2px;
+}
+
+.why-card p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #9a8aaa;
+    line-height: 1.65;
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .why-cards {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+    }
+
+    #why-section h2 {
+        font-size: 32px;
+    }
+}
+
+/* ---------- Shop Materials CTA ---------- */
+#shop-materials-cta {
+    text-align: center;
+    padding: 64px 40px 72px;
+    background: linear-gradient(160deg, #ede7f5 0%, #EFF0EA 60%);
+    border-top: 1px solid #e2d8f0;
+    border-bottom: 1px solid #e2d8f0;
+}
+
+#smc-main {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #5D3364;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+#smc-sub {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #9a8aaa;
+    margin-bottom: 32px;
+    font-weight: 400;
+}
+
+#shop-material-btn {
+    background: transparent;
+    color: #5D3364;
+    border: 2px solid #B08AC3;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 13px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+#shop-material-btn:hover {
+    background-color: #B08AC3;
+    border-color: #B08AC3;
+    color: #fff;
+    transform: translateY(-2px);
 }
 
 /* ---------- Best Sellers ---------- */
@@ -247,26 +407,50 @@ header button img[alt="Cart Icon"] {
     margin: 8px auto 0;
 }
 
-#main-imgs {
+/* Best sellers carousel */
+.bs-carousel-container {
     display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-    min-height: 200px;
-    background-color: #fff;
-    border: 2px dashed #B08AC3;
-    border-radius: 16px;
-    padding: 40px;
-    color: #B08AC3;
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
+    gap: 16px;
+    padding: 8px 0;
 }
 
-#main-imgs h3 {
-    color: #B08AC3;
-    font-size: 18px;
-    font-weight: 500;
+.bs-track {
+    display: flex;
+    gap: 24px;
+    overflow: hidden;
+    flex: 1;
+    scroll-behavior: smooth;
+    padding: 12px 4px 16px;
+}
+
+.bs-card {
+    min-width: 220px;
+    flex-shrink: 0;
+}
+
+.bs-arrow {
+    background: #fff;
+    border: 1.5px solid #e0d4ed;
+    border-radius: 50%;
+    width: 46px;
+    height: 46px;
+    font-size: 26px;
+    line-height: 1;
+    color: #5D3364;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(176, 138, 195, 0.2);
+    transition: background-color 0.22s, color 0.22s, transform 0.2s;
+}
+
+.bs-arrow:hover {
+    background: #5D3364;
+    color: #fff;
+    transform: scale(1.08);
 }
 
 /* ---------- Product Card (reusable) ---------- */
@@ -305,9 +489,21 @@ header button img[alt="Cart Icon"] {
 /* ---------- About Section ---------- */
 .about {
     background-color: #F5F3FB;
-    padding: 60px 80px;
-    border-top: 4px solid #B08AC3;
-    border-bottom: 4px solid #B08AC3;
+    padding: 70px 80px;
+    border-top: 1px solid #d4c5e4;
+    border-bottom: 1px solid #d4c5e4;
+    position: relative;
+}
+
+.about::before {
+    content: '— ✦ —';
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #B08AC3;
+    letter-spacing: 10px;
+    margin-bottom: 36px;
+    opacity: 0.7;
 }
 
 .about p {
@@ -316,6 +512,19 @@ header button img[alt="Cart Icon"] {
     max-width: 720px;
     margin: 0 auto 20px;
     line-height: 1.8;
+}
+
+.closing-line {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    color: #7a6a86;
+    max-width: 640px;
+    margin: 0 auto !important;
+    text-align: center;
+    line-height: 1.8;
+    letter-spacing: 0.2px;
 }
 
 .about h5 {
@@ -414,11 +623,7 @@ footer h5 {
     }
 
     #main-cta {
-        padding: 50px 20px 40px;
-    }
-
-    #main-cta h2 {
-        font-size: 28px;
+        padding: 32px 0 48px;
     }
 
     .about {
