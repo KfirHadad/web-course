@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Wicked Wax cart and checkout page for candle-making supplies.">
+    <title>Wicked Wax | Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="cart.css">
+    <link rel="icon" href="../Assets/logo.jpeg" type="image/jpeg">
+
+</head>
+<body>
+    <header>
+        <a href="../index.html" id="brand-link">
+            <img src="../Assets/logo.jpeg" alt="Wicked Wax Logo">
+            <h1>Wicked Wax</h1>
+        </a>
+
+        <div class="left-header">
+            <a href="../products/products.html" id="nav-shop-btn" class="nav-link">Shop</a>
+            <a href="../build/build.html" id="nav-build-btn" class="nav-link">Build a Candle</a>
+            <button aria-label="Cart" class="nav-active">
+                <img src="../Assets/cart.svg" alt="Cart Icon">
+            </button>
+        </div>
+
+        <div class="right-header">
+            <a href="../about/about.html" id="nav-about-btn" class="nav-link">About</a>
+            <a href="../contact/contact.html" id="nav-contact-btn" class="nav-link">Contact</a>
+        </div>
+    </header>
+
+    <main class="cart-page">
+        <section class="page-intro">
+            <div>
+                <p class="eyebrow">Cart</p>
+                <h1>Your cart is glowing. A few clicks and it's all yours!</h1>
+                <p class="intro-copy">Your basket is full of good things. Take a peek, make any changes, and let's get these to you.</p>
+            </div>
+        </section>
+
+        <section class="cart-content">
+            <div class="cart-main" id="cart-main">
+                <div class="cart-head">
+                    <h2>What's in Your Basket</h2>
+                    <p id="cart-count-text" class="cart-count">3 items in your cart</p>
+                </div>
+
+                <div id="cart-items" class="cart-items"></div>
+
+                <div id="cart-empty" class="cart-empty hidden" role="status" aria-live="polite">
+                    <p>Your cart is empty.</p>
+                    <a class="button button-primary" href="../products/products.html">Start Shopping</a>
+                </div>
+            </div>
+
+            <aside class="cart-summary">
+                <div class="summary-card">
+                    <h2>Order Summary</h2>
+                    <dl>
+                        <div class="summary-row">
+                            <dt>Subtotal</dt>
+                            <dd id="summary-subtotal">₪0.00</dd>
+                        </div>
+                        <div class="summary-row hidden" id="discount-row">
+                            <dt>Discount</dt>
+                            <dd id="summary-discount">₪0.00</dd>
+                        </div>
+                        <div class="summary-row total-row">
+                            <dt>Total</dt>
+                            <dd id="summary-total">₪0.00</dd>
+                        </div>
+                    </dl>
+                    <div class="promo-box">
+                        <label for="promo-code">Discount Code</label>
+                        <div class="promo-row">
+                            <input id="promo-code" type="text" placeholder="Enter code">
+                            <button id="apply-promo" class="button button-secondary" type="button">Apply</button>
+                        </div>
+                        <p id="promo-message" class="promo-message" aria-live="polite"></p>
+                    </div>
+                    <button id="checkout-btn" class="button button-primary" type="button">Proceed to Payment</button>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <div id="checkout-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="checkout-heading">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-panel">
+            <button class="modal-close" id="close-modal" aria-label="Close checkout modal">×</button>
+            <header class="modal-header">
+                <p class="eyebrow">Checkout</p>
+            </header>
+
+            <div class="wizard">
+                <div class="wizard-track" id="wizard-track">
+                    <section class="wizard-step" data-step="1" aria-labelledby="step-1-title">
+                        <div class="step-header">
+                            <h3 id="step-1-title">Personal Details</h3>
+                            <p>Tell us who should receive the order confirmation.</p>
+                        </div>
+                        <div class="form-grid">
+                            <div class="mb-3">
+                                <label for="full-name" class="form-label">Full Name</label>
+                                <input id="full-name" name="fullName" type="text" class="form-control" placeholder="Jane Doe" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input id="email" name="email" type="email" class="form-control" placeholder="jane@example.com" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <div class="input-group">
+                                    <select id="phone-country-code" name="phoneCountryCode" class="form-select form-select-sm" required style="max-width: 120px;">
+                                        <option value="">Code</option>
+                                        <option value="050">050</option>
+                                        <option value="052">052</option>
+                                        <option value="053">053</option>
+                                        <option value="054">054</option>
+                                        <option value="055">055</option>
+                                        <option value="058">058</option>
+                                    </select>
+                                    <input id="phone" name="phone" type="number" maxlength="7" class="form-control" inputmode="numeric" pattern="[0-9]{7}" placeholder="555 1234" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-actions">
+                            <button id="step1-next" class="button button-primary" type="button">Next</button>
+                        </div>
+                    </section>
+
+                    <section class="wizard-step" data-step="2" aria-labelledby="step-2-title">
+                        <div class="step-header">
+                            <h3 id="step-2-title">Shipping Details</h3>
+                            <p>Where should we send your supplies?</p>
+                        </div>
+                        <div class="form-grid">
+                            <div class="mb-3">
+                                <label for="city" class="form-label">City</label>
+                                <input id="city" name="city" type="text" class="form-control" placeholder="Brooklyn" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input id="address" name="address" type="text" class="form-control" placeholder="123 Candle Lane" required>
+                            </div>                            
+
+                            <div class="mb-3">
+                                <label for="postal-code" class="form-label">Postal Code</label>
+                                <input id="postal-code" name="postalCode" type="number" minlength="5" maxlength="8" class="form-control" inputmode="numeric" pattern="[0-9]{5,10}" placeholder="11215" required>
+                            </div>
+                        </div>
+                        <div class="step-actions button-group">
+                            <button id="step2-back" class="button button-secondary" type="button">Back</button>
+                            <button id="step2-next" class="button button-primary" type="button">Next</button>
+                        </div>
+                    </section>
+
+                    <section class="wizard-step" data-step="3" aria-labelledby="step-3-title">
+                        <div class="step-header">
+                            <h3 id="step-3-title">Payment Details</h3>
+                            <p>Secure your order with card details.</p>
+                        </div>
+                        <div class="form-grid">
+                            <div class="mb-3">
+                                <label for="card-number" class="form-label">Credit Card Number</label>
+                                <input id="card-number" name="cardNumber" type="number" minlength="16" maxlength="16" class="form-control" inputmode="numeric" pattern="[0-9]{16}" placeholder="1234 5678 9012 3456" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Expiration Date</label>
+                                <div class="input-group">
+                                    <select id="expiry-month" name="expiryMonth" class="form-select" required>
+                                        <option value="">Month</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                    <select id="expiry-year" name="expiryYear" class="form-select" required>
+                                        <option value="">Year</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                        <option value="2030">2030</option>
+                                        <option value="2031">2031</option>
+                                        <option value="2032">2032</option>
+                                        <option value="2033">2033</option>
+                                        <option value="2034">2034</option>
+                                        <option value="2035">2035</option>
+                                        <option value="2036">2036</option>
+                                        <option value="2037">2037</option>
+                                        <option value="2038">2038</option>
+                                        <option value="2039">2039</option>
+                                        <option value="2040">2040</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="cvv" class="form-label">CVV</label>
+                                <input id="cvv" name="cvv" type="number" minlength="3" maxlength="4" class="form-control" inputmode="numeric" pattern="[0-9]{3,4}" placeholder="123" required>
+                            </div>
+                        </div>
+                        <div class="step-actions button-group">
+                            <button id="step3-back" class="button button-secondary" type="button">Back</button>
+                            <button id="confirm-order" class="button button-primary" type="button">Confirm Order</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div id="payment-error" class="modal-error" role="alert" aria-live="assertive"></div>
+            <div id="checkout-result" class="checkout-result hidden" aria-live="polite">
+                <p class="result-title">Wicked Choice! We're getting everything ready for you.</p>
+                <p class="result-copy">Your order is in progress and will arrive soon.</p>
+                <a class="button button-primary" href="/">Return to Homepage</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Build your own Wicked Wax candle bundle with a jar, wax color, scent and wick.">
+    <title>Build a Candle - Wicked Wax</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../build/build.css">
+    <link rel="icon" href="../Assets/logo.jpeg" type="image/jpeg">
+
+</head>
+
+<body>
+
+    <header>
+        <a href="../index.html" id="brand-link">
+            <img src="../Assets/logo.jpeg" alt="Wicked Wax Logo">
+            <h1>Wicked Wax</h1>
+        </a>
+
+        <div class="left-header">
+            <a href="../products/products.html" id="nav-shop-btn" class="nav-link">Shop</a>
+            <a href="./build.html" id="nav-build-btn" class="nav-link nav-active">Build a Candle</a>
+            <button aria-label="Cart">
+                <img src="../Assets/cart.svg" alt="Cart Icon">
+            </button>
+        </div>
+
+        <div class="right-header">
+            <a href="../about/about.html" id="nav-about-btn" class="nav-link">About</a>
+            <a href="../contact/contact.html" id="nav-contact-btn" class="nav-link">Contact</a>
+        </div>
+    </header>
+
+    <main class="build-page">
+        <section class="build-hero" aria-labelledby="build-title">
+            <div class="build-hero-inner">
+                <h2 id="build-title">Your Candle, Your Rules!</h2>
+                <p>
+                    No two are the same, and that's the whole point!
+                    Choose your jar, your color, your scent, and your wick, and let's build something that smells like you,
+                    burns like you, and looks like nothing else on the shelf.
+                </p>
+            </div>
+        </section>
+
+        <section class="builder-shell" aria-label="Build a candle bundle">
+            <div class="builder-main">
+                <section class="bundle-choice" aria-labelledby="bundle-title">
+                    <div>
+                        <p class="builder-kicker">Start with your size</p>
+                        <h3 id="bundle-title">Choose your bundle</h3>
+                    </div>
+                    <div class="bundle-options" role="radiogroup" aria-label="Bundle size">
+                        <button type="button" class="bundle-card" data-bundle="small" aria-pressed="false">
+                            <span>Small Bundle</span>
+                            <strong>&#8362;110</strong>
+                        </button>
+                        <button type="button" class="bundle-card" data-bundle="large" aria-pressed="false">
+                            <span>Large Bundle</span>
+                            <strong>&#8362;125</strong>
+                        </button>
+                    </div>
+                </section>
+
+                <div class="builder-steps">
+                    <section class="builder-step" data-step="jar">
+                        <button type="button" class="step-toggle" aria-expanded="false">
+                            <span>
+                                <strong>Which jar is calling your name?</strong>
+                                <small>We offer 3 unique jar styles. Find the one that suits you best.</small>
+                            </span>
+                        </button>
+                        <div class="step-panel">
+                            <div class="option-grid three" id="jar-options"></div>
+                            <div class="step-actions">
+                                <p class="step-message" id="jar-message"></p>
+                                <button type="button" class="next-step" data-next="wax">Next</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="builder-step" data-step="wax">
+                        <button type="button" class="step-toggle" aria-expanded="false">
+                            <span>
+                                <strong>What color are you feeling?</strong>
+                                <small>We offer 19 hand-picked wax colors. Find the shade that sets your mood.</small>
+                            </span>
+                        </button>
+                        <div class="step-panel">
+                            <div class="option-grid wax-grid" id="wax-options"></div>
+                            <div class="step-actions">
+                                <p class="step-message" id="wax-message"></p>
+                                <button type="button" class="next-step" data-next="scent">Next</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="builder-step" data-step="scent">
+                        <button type="button" class="step-toggle" aria-expanded="false">
+                            <span>
+                                <strong>What will you smell like?</strong>
+                                <small>We offer 26 unique scents. Find the one that tells your story.</small>
+                            </span>
+                        </button>
+                        <div class="step-panel">
+                            <div class="option-grid scent-grid" id="scent-options"></div>
+                            <div class="step-actions">
+                                <p class="step-message" id="scent-message"></p>
+                                <button type="button" class="next-step" data-next="wick">Next</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="builder-step" data-step="wick">
+                        <button type="button" class="step-toggle" aria-expanded="false">
+                            <span>
+                                <strong>Pick your spark</strong>
+                                <small>We offer cotton and wooden wicks. Find the burn that suits you best.</small>
+                            </span>
+                        </button>
+                        <div class="step-panel">
+                            <p class="wick-note">Love the sound of a crackling fire? Switch to wooden wicks for +&#8362;5</p>
+                            <div class="option-grid two" id="wick-options"></div>
+                            <div class="step-actions">
+                                <p class="step-message" id="wick-message"></p>
+                                <button type="button" class="next-step" data-next="done">Next</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="builder-reset-wrap">
+                <button type="button" id="reset-builder">Reset Choices</button>
+            </div>
+
+            <aside class="builder-summary" aria-label="Your candle bundle summary">
+                <p class="builder-kicker">Your choices</p>
+                <h3>Candle Bundle</h3>
+                <dl class="summary-list">
+                    <div><dt>Size</dt><dd id="summary-bundle">Choose a bundle</dd></div>
+                    <div><dt>Jar</dt><dd id="summary-jar">Not chosen yet</dd></div>
+                    <div><dt>Wax</dt><dd id="summary-wax">Not chosen yet</dd></div>
+                    <div><dt>Scent</dt><dd id="summary-scent">Not chosen yet</dd></div>
+                    <div><dt>Wick</dt><dd id="summary-wick">Not chosen yet</dd></div>
+                </dl>
+                <div class="summary-total">
+                    <span>Total</span>
+                    <strong id="summary-total">&#8362;0</strong>
+                </div>
+                <p class="builder-error" id="builder-error" role="alert"></p>
+                <button type="button" id="add-bundle-to-cart">Add Bundle to Cart</button>
+            </aside>
+        </section>
+    </main>
+
+    <footer>
+        <div id="soc-med">
+            <a href="https://www.instagram.com/taylorswift/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://x.com/taylorswift13" target="_blank" rel="noopener">X</a>
+        </div>
+        <a href="https://www.thehersheycompany.com/en_us/home/privacy-policy.html" target="_blank" rel="noopener" id="terms-link">Terms &amp; Privacy</a>
+        <h5>&copy; 2026 Wicked Wax. All Rights Reserved.</h5>
+    </footer>
+
+    <script src="build.js"></script>
+</body>
+
+</html>
