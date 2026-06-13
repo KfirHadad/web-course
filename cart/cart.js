@@ -26,14 +26,14 @@ const step3Back = document.getElementById('step3-back');
 const confirmOrderButton = document.getElementById('confirm-order');
 
 const formFields = {
-    fullName: document.getElementById('full-name'),
+    fullName: document.getElementById('fullName'),
     email: document.getElementById('email'),
-    phone: document.getElementById('phone'),
+    phone: document.getElementById('phoneNumber'),
     phoneCountryCode: document.getElementById('phone-country-code'),
     address: document.getElementById('address'),
     city: document.getElementById('city'),
-    postalCode: document.getElementById('postal-code'),
-    cardNumber: document.getElementById('card-number'),
+    postalCode: document.getElementById('postalcode'),
+    ccNumber: document.getElementById('ccNumber'),
     expiryMonth: document.getElementById('expiry-month'),
     expiryYear: document.getElementById('expiry-year'),
     cvv: document.getElementById('cvv'),
@@ -313,7 +313,7 @@ function validateCurrentStep() {
     } else if (checkoutState.activeStep === 2) {
         requiredFields.push(formFields.address, formFields.city, formFields.postalCode);
     } else if (checkoutState.activeStep === 3) {
-        requiredFields.push(formFields.cardNumber, formFields.expiryMonth, formFields.expiryYear, formFields.cvv);
+        requiredFields.push(formFields.ccNumber, formFields.expiryMonth, formFields.expiryYear, formFields.cvv);
     }
 
     for (const field of requiredFields) {
@@ -346,9 +346,9 @@ function validateCurrentStep() {
     }
 
     // Step 3: Credit card validation (exactly 16 digits)
-    if (checkoutState.activeStep === 3 && !/^\d{16}$/.test(formFields.cardNumber.value.replace(/\s+/g, ''))) {
+    if (checkoutState.activeStep === 3 && !/^\d{16}$/.test(formFields.ccNumber.value.replace(/\s+/g, ''))) {
         paymentError.textContent = 'Credit card number must be exactly 16 digits.';
-        formFields.cardNumber.focus();
+        formFields.ccNumber.focus();
         return false;
     }
 
@@ -384,21 +384,73 @@ function goToStep(step) {
     showStepButtons();
 }
 
-function simulateCheckout() {
+async function simulateCheckout() {
     if (!validateCurrentStep()) return;
+    
     paymentError.textContent = 'Processing your payment...';
     confirmOrderButton.disabled = true;
     step3Back.disabled = true;
 
-    window.setTimeout(() => {
+    // 1. איסוף הנתונים וחיבור השדות (טלפון ותאריך תפוגה)
+    const phoneNumber = formFields.phoneCountryCode.value + formFields.phone.value;
+    const expirationDate = formFields.expiryMonth.value + '/' + formFields.expiryYear.value;
+
+    const reservationData = {
+        fullName: formFields.fullName.value,
+        email: formFields.email.value,
+        phoneNumber: phoneNumber,
+        city: formFields.city.value,
+        address: formFields.address.value,
+        postalCode: formFields.postalCode.value,
+        ccNumber: formFields.ccNumber.value,
+        expirationDate: expirationDate,
+        cvv: formFields.cvv.value
+    };
+
+    try {
+        // 2. פנייה לשרת האמיתי במקום ה-setTimeout
+        const response = await fetch('http://localhost:5000/api/reservations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reservationData)
+        });
+
+        // Read raw response text first so we can log or parse safely
+        const rawText = await response.text();
+        let result;
+        try {
+            result = JSON.parse(rawText);
+        } catch (e) {
+            result = { error: rawText };
+        }
+
+        // 3. Re-enable the buttons (so user can retry)
         confirmOrderButton.disabled = false;
         step3Back.disabled = false;
-        const isSuccess = Math.random() >= 0.25;
-        if (!isSuccess) {
-            paymentError.textContent = 'Payment failed, please try again.';
+
+        // 4. If server returned an error status, map DB constraint errors to friendly messages
+        if (!response.ok) {
+            // Log raw server error for debugging (do not expose to user)
+            console.error('Server error response:', response.status, response.statusText, result);
+
+            const errString = String(result.error || result.message || rawText || '').toUpperCase();
+            let userMessage = 'Payment failed. Please try again.';
+
+            if (errString.includes('CHK_EMAIL')) {
+                userMessage = 'Invalid email format.';
+            } else if (errString.includes('CHK_CCNUMBER')) {
+                userMessage = 'Credit card must be exactly 16 digits.';
+            } else if (errString.includes('CHK_PHONE')) {
+                userMessage = 'Please enter a valid phone number.';
+            }
+
+            paymentError.textContent = userMessage;
             return;
         }
 
+        // 5. הקוד המקורי שלך למקרה של הצלחה
         paymentError.textContent = '';
         wizardTrack.style.display = 'none';
         checkoutResult.classList.remove('hidden');
@@ -409,9 +461,14 @@ function simulateCheckout() {
         localStorage.removeItem(CART_KEY);
         localStorage.removeItem(CART_COUNT_KEY);
         renderCartItems();
-    }, 1400);
-}
 
+    } catch (error) {
+        console.error('Network Error:', error);
+        paymentError.textContent = 'Network error. Please make sure the server is running.';
+        confirmOrderButton.disabled = false;
+        step3Back.disabled = false;
+    }
+}
 checkoutBtn.addEventListener('click', openModal);
 closeModalButton.addEventListener('click', closeModal);
 modalBackdrop.addEventListener('click', closeModal);
