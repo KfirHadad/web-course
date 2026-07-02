@@ -1,0 +1,19 @@
+{
+  "name": "wicked-wax-server",
+  "version": "1.0.0",
+  "description": "Wicked Wax Part 3 — Express + SQL Server backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "msnodesqlv8": "^5.2.1",
+    "mssql": "^12.6.0"
+  },
+  "allowScripts": {
+    "msnodesqlv8@5.2.1": true
+  }
+}
