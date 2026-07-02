@@ -32,9 +32,21 @@
 - **Not sysadmin on Express install:** recovered via single-user mode (`net start 'MSSQL$SQLEXPRESS' /mSQLCMD` → `ALTER SERVER ROLE sysadmin ADD MEMBER`).
 - **Node runs as `guylap15\omer grinwald` (standard user); SSMS runs elevated as an admin acct.** Different SQL logins. Granted the standard user a `WickedWax` user + `db_owner`. Any dev on a new machine must do the same for THEIR account.
 
+## Step 2 — DONE (Orders schema)
+- `server/sql/schema.sql`: guarded `CREATE DATABASE`, re-runnable `DROP/CREATE dbo.Orders`.
+- Columns mirror checkout payload. `ExpirationDate VARCHAR(7)` ("MM/YYYY") — teammate's `VARCHAR(5)` would truncate.
+- Named CHECK constraints `CHK_EMAIL / CHK_CCNUMBER / CHK_PHONE` (cart.js maps names → friendly errors).
+- Ran via SSMS; verified table + all 3 constraints via a Node query.
+
+## Step 3 — DONE (POST /api/orders)
+- `server/routes/orders.js`: Express Router. `validateOrder()` (mirrors cart.js rules) → 400 before DB; parameterized INSERT; returns `{orderId}` via `OUTPUT INSERTED.OrderId`. Passes `err.message` through so cart.js can read constraint names.
+- `index.js`: added `express.json()` + mounted `/api/orders`. Kept temp `/api/health` (remove before final).
+- Tested via Invoke-RestMethod: valid → 201 `{orderId:1}`; bad email → 400 friendly msg. (Test row OrderId 1 left in Orders.)
+- `cors` NOT installed yet — needed for browser wiring (Step 4).
+
 ## Next
-1. `sql/schema.sql` — Orders table + CHECK constraints (`CHK_EMAIL / CHK_CCNUMBER / CHK_PHONE`). See plan.
-2. Migrate teammate's `/api/reservations` logic into `server/routes/`; retire root `server.js`.
+1. Step 4: add `OrderItems` table (FK→Orders, cascade) + extend POST to a transaction (order + items) + extend cart.js payload; add `cors`; test end-to-end from the site.
+2. Steps 5-8: GET/GET:id/PUT/DELETE order routes; ContactMessages + contact route; (stretch) Products; retire root `server.js`.
 
 ## Key facts
 - Teammate's `web-course/server.js` (root): working reference — 1 route `/api/reservations`, table `ReservationDetails`, msnodesqlv8 + Windows auth, hardcoded machine name. To be migrated into `server/routes/` then retired.
