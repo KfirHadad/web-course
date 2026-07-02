@@ -1,0 +1,13 @@
+# Dependencies (reinstall with `npm install`) — never commit these
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment / secrets
+.env
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
