@@ -7,6 +7,8 @@ npm-debug.log*
 
 # Environment / secrets
 .env
+# MySQL password lives here — each dev creates their own copy locally
+server/db.config.js
 
 # OS / editor cruft
 Thumbs.db

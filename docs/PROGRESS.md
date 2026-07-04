@@ -1,6 +1,6 @@
 # Wicked Wax — Progress
 
-**Project:** Part 3 — Express + SQL Server backend
+**Project:** Part 3 — Express + MySQL backend (migrated from SQL Server 2026-07-04)
 **Path:** C:\Users\Omer Grinwald\Downloads\Wicked_Wax\web-course
 **Backend:** `server\`
 **Full plan:** C:\Users\Omer Grinwald\.claude\plans\yes-i-do-all-goofy-rabin.md
@@ -88,6 +88,49 @@ All in `server/routes/orders.js`, all verified live (2026-07-04):
 ## Step 8 — DONE (final cleanup 2026-07-04)
 - Deleted dead root `server.js` (teammate's reference: single `/api/reservations` route → `ReservationDetails` in a separate `Reservations` DB, hardcoded to `DESKTOP-8NPDUDDF`). Superseded by `server/routes/orders.js`; nothing calls `/api/reservations` (cart.js was retargeted to `/api/orders` in Step 4). Git-tracked, so recoverable.
 - Temp `/api/health`: already absent from the code — nothing to remove.
+
+## Step 9 — DONE (SQL Server → MySQL migration, verified 2026-07-04)
+Course-exact (lecture 7): `mysql2` **callback API**, `db.config.js` (HOST/USER/PASSWORD/DB)
++ `db.js` (`createConnection`, exports the connection). MySQL Server **9.7** local,
+root login, DB `WickedWax` (Windows lowercases it → `wickedwax`).
+- Removed: `mssql`, `msnodesqlv8`, `server/config.js` (port now inline in index.js).
+- `schema.sql` ported: AUTO_INCREMENT, `DROP TABLE IF EXISTS`, VARCHAR, DATETIME
+  DEFAULT CURRENT_TIMESTAMP, `CHAR_LENGTH()`; T-SQL `LIKE '%[^0-9]%'` classes → `REGEXP`.
+  All constraint names kept (CHK_EMAIL / CHK_CCNUMBER / CHK_PHONE / CHK_QTY /
+  CHK_CONTACT_EMAIL / CHK_MESSAGE_LEN) — enforced, and MySQL error text includes the
+  name ("Check constraint 'CHK_EMAIL' is violated.") so cart.js mapping still works.
+- Routes rewritten to callbacks: `?` placeholders, `result.insertId`,
+  `result.affectedRows`, `beginTransaction`/`commit`/`rollback` on the shared
+  connection; items saved via bulk `INSERT ... VALUES ?` (array of row-arrays).
+  Contact uses course pattern `INSERT INTO ContactMessages SET ?`.
+- **DECIDED: no data migration** — old SQL Server rows stay behind; MySQL starts empty.
+- Verified: full CRUD round (POST 201 / qty-0 rollback 400 / GET list w/o card fields /
+  GET :id + items / PUT replace / 404s / DELETE + cascade → 0 orphans) + direct
+  bad-email insert fires CHK_EMAIL by name. Test rows cleaned.
+- **db.config.js holds the real root password and is untracked — decide gitignore vs
+  commit during the audit/trim step.**
+
+## Step 10 — DONE (audit + trim, 2026-07-04)
+Audited vs Part C rubric (routing 30 / DB+SQL 30 / validation 15 / structure 10 /
+general 15): all strong. Parts A+B minimums verified (6 pages, RWD, keyframes,
+89 listeners, forms + client validation).
+- **Trim (user-approved):**
+  - `.gitignore` += `server/db.config.js` (holds real MySQL password).
+  - `cors` REMOVED (package + code). Site now served by Express itself:
+    `express.static(<web-course root>)` in index.js (in-syllabus, lecture 6) —
+    Live Server no longer needed; site runs at http://localhost:5000/.
+    `/server/*` answers 403 so db.config.js can't be downloaded.
+  - Routing refactored to **lecture-7 style**: `express.Router` removed;
+    routes declared in index.js (`app.get/post/put/delete`), handlers exported
+    from `server/orders_functions.js` + `server/contact_functions.js`
+    (CRUD_functions.js pattern). `server/routes/` deleted. URLs unchanged.
+- **Flags for submission (user decisions):** forms submit via fetch, not the
+  `action` attr (state as work assumption; frontend not to be touched);
+  PUT/DELETE/GET-list have no UI on purpose (demo via REST client).
+- Verified after refactor: full CRUD on a live order + contact POST + site 200
+  + 403 guard. Orders 2–3 are Omer's real browser checkouts — kept.
+- Gotcha: test scripts must use the returned orderId, not a hardcoded 1 —
+  AUTO_INCREMENT ids burn even on rollback.
 
 ## Status
 - Steps 1–6 + 8 DONE. Step 7 (Products) intentionally **skipped** (stretch/optional; rubric already met by Orders + Contact).

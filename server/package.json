@@ -9,10 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.6",
     "express": "^5.2.1",
-    "msnodesqlv8": "^5.2.1",
-    "mssql": "^12.6.0"
+    "mysql2": "^3.22.5"
   },
   "allowScripts": {
     "msnodesqlv8@5.2.1": true
