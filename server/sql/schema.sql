@@ -71,3 +71,32 @@ CREATE TABLE dbo.OrderItems (
     CONSTRAINT CHK_QTY CHECK (Qty > 0)
 );
 GO
+
+-- 5. ContactMessages: one row per submitted "Contact Us" message.
+--    Standalone table — no foreign key to Orders, so this block can be run on
+--    its own without dropping (and losing) real order data. Columns mirror the
+--    contact form's fields (contact.js: name / email / subject / message).
+IF OBJECT_ID('dbo.ContactMessages', 'U') IS NOT NULL
+    DROP TABLE dbo.ContactMessages;
+GO
+
+CREATE TABLE dbo.ContactMessages (
+    MessageId INT IDENTITY(1,1) NOT NULL,        -- surrogate PK, auto-increment
+    Name      NVARCHAR(100)     NOT NULL,
+    Email     NVARCHAR(255)     NOT NULL,
+    Subject   NVARCHAR(200)     NOT NULL,
+    Message   NVARCHAR(2000)    NOT NULL,        -- free text from the textarea
+    CreatedAt DATETIME2         NOT NULL CONSTRAINT DF_ContactMessages_CreatedAt DEFAULT SYSDATETIME(),
+
+    CONSTRAINT PK_ContactMessages PRIMARY KEY (MessageId),
+
+    -- Second validation layer (mirrors contact.js). Constraint names must be
+    -- UNIQUE across the whole database, so this is CHK_CONTACT_EMAIL, not the
+    -- CHK_EMAIL already used by dbo.Orders.
+    CONSTRAINT CHK_CONTACT_EMAIL CHECK (Email LIKE '%_@_%._%'),
+
+    -- Mirror contact.js: reject messages shorter than 10 characters, so the DB
+    -- can't hold a too-short message even if a request bypasses the client.
+    CONSTRAINT CHK_MESSAGE_LEN CHECK (LEN(Message) >= 10)
+);
+GO

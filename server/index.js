@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const config = require("./config");
 const ordersRouter = require("./routes/orders");
+const contactRouter = require("./routes/contact");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 
 // Feature routes. Each router owns one resource under /api.
 app.use("/api/orders", ordersRouter);
+app.use("/api/contact", contactRouter);
 
 app.listen(config.port, () => {
   console.log(`Server listening on http://localhost:${config.port}`);
