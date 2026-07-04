@@ -31,12 +31,47 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartBadge();
     window.addEventListener('storage', updateCartBadge);
 
-    form?.addEventListener('submit', event => {
+    form?.addEventListener('submit', async event => {
         event.preventDefault();
-        const isValid = validateForm();
+        if (!validateForm()) return;
 
-        if (isValid) {
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
+
+        // Match the server payload (contact route expects name/email/subject/message).
+        const payload = {
+            name: document.getElementById('contact-name').value.trim(),
+            email: document.getElementById('contact-email').value.trim(),
+            subject: document.getElementById('contact-subject').value.trim(),
+            message: document.getElementById('contact-message').value.trim(),
+        };
+
+        try {
+            const response = await fetch('http://localhost:5000/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            // Read raw text first, then parse — same safe pattern cart.js uses.
+            const rawText = await response.text();
+            let result;
+            try { result = JSON.parse(rawText); } catch { result = { error: rawText }; }
+
+            if (!response.ok) {
+                console.error('Contact server error:', response.status, result);
+                showToast(result.error || 'Could not send your message. Please try again.');
+                if (submitBtn) submitBtn.disabled = false;
+                return;
+            }
+
+            // Saved. Clear the form, then show the confirmation popup.
+            form.reset();
             showSuccessPopup();
+        } catch (error) {
+            console.error('Network Error:', error);
+            showToast('Network error. Please make sure the server is running.');
+            if (submitBtn) submitBtn.disabled = false;
         }
     });
 

@@ -404,12 +404,15 @@ async function simulateCheckout() {
         postalCode: formFields.postalCode.value,
         ccNumber: formFields.ccNumber.value,
         expirationDate: expirationDate,
-        cvv: formFields.cvv.value
+        cvv: formFields.cvv.value,
+        // Cart line items -> saved into OrderItems. Server field is `qty`; our
+        // in-memory cart calls it `quantity`, so map it here.
+        items: cartData.map(i => ({ id: i.id, name: i.name, price: i.price, qty: i.quantity }))
     };
 
     try {
         // 2. פנייה לשרת האמיתי במקום ה-setTimeout
-        const response = await fetch('http://localhost:5000/api/reservations', {
+        const response = await fetch('http://localhost:5000/api/orders', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
