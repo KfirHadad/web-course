@@ -2,10 +2,16 @@
 // Boots an Express web server and listens for HTTP requests.
 
 const express = require("express");
+const cors = require("cors");
 const config = require("./config");
 const ordersRouter = require("./routes/orders");
 
 const app = express();
+
+// Allow the browser to call this API from a different origin (the site runs on
+// Live Server / file://, this server on :5000). Without CORS the browser blocks
+// the cross-origin fetch. Open for local dev; can be locked to an allowlist later.
+app.use(cors());
 
 // Parse JSON request bodies into req.body (routes need this).
 app.use(express.json());

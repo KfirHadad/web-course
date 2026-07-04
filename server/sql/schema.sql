@@ -13,6 +13,12 @@ USE WickedWax;
 GO
 
 -- 2. Start clean so this script can be re-run while the schema evolves.
+--    Drop the child (OrderItems) BEFORE the parent (Orders): the foreign key
+--    forbids dropping a table another table still references.
+IF OBJECT_ID('dbo.OrderItems', 'U') IS NOT NULL
+    DROP TABLE dbo.OrderItems;
+GO
+
 IF OBJECT_ID('dbo.Orders', 'U') IS NOT NULL
     DROP TABLE dbo.Orders;
 GO
@@ -41,5 +47,27 @@ CREATE TABLE dbo.Orders (
     CONSTRAINT CHK_CCNUMBER CHECK (CCNumber NOT LIKE '%[^0-9]%'),
     -- Phone: at least 7 chars, only digits / + / spaces allowed.
     CONSTRAINT CHK_PHONE    CHECK (LEN(PhoneNumber) >= 7 AND PhoneNumber NOT LIKE '%[^0-9+ ]%')
+);
+GO
+
+-- 4. OrderItems: the cart's line items, one row per product in an order.
+--    This is the "many" side of a one-to-many with Orders (one order -> many items).
+CREATE TABLE dbo.OrderItems (
+    OrderItemId INT IDENTITY(1,1) NOT NULL,      -- surrogate PK, auto-increment
+    OrderId     INT               NOT NULL,      -- which order this line belongs to
+    ProductId   NVARCHAR(100)     NOT NULL,      -- slug ('soy-wax'), 'bundle-<ts>', or name fallback
+    ProductName NVARCHAR(255)     NOT NULL,      -- display name (bundle names are long)
+    UnitPrice   DECIMAL(10,2)     NOT NULL,      -- price per unit at time of purchase
+    Qty         INT               NOT NULL,      -- how many of this product
+
+    CONSTRAINT PK_OrderItems PRIMARY KEY (OrderItemId),
+
+    -- Link each item to its order. ON DELETE CASCADE: deleting an order
+    -- automatically removes its items (no orphan rows left behind).
+    CONSTRAINT FK_OrderItems_Orders FOREIGN KEY (OrderId)
+        REFERENCES dbo.Orders(OrderId) ON DELETE CASCADE,
+
+    -- Can't order zero or a negative quantity.
+    CONSTRAINT CHK_QTY CHECK (Qty > 0)
 );
 GO
