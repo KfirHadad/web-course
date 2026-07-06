@@ -20,7 +20,6 @@ app.use("/server", (req, res) => res.status(403).end());
 app.use(express.static(path.join(__dirname, "..")));
 
 // Routes: one line per client request type, each pointing at its handler
-// function (lecture-7 pattern).
 app.post("/api/orders", orders.createOrder);
 app.get("/api/orders", orders.getAllOrders);
 app.get("/api/orders/:id", orders.getOrderById);
